@@ -139,13 +139,35 @@ export function Work() {
             <p className="mt-6 border-l-2 border-accent pl-4 italic">
               {project.outcome}
             </p>
-            <button
-              className="mt-2 inline-block border-b border-border py-2 text-[13px] text-accent"
-              onClick={() => setDetailOpen(true)}
-              type="button"
-            >
-              Project notes ↗
-            </button>
+            <div className="mt-2 flex flex-wrap items-center gap-x-5">
+              <button
+                className="inline-block border-b border-border py-2 text-[13px] text-accent"
+                onClick={() => setDetailOpen(true)}
+                type="button"
+              >
+                Project notes ↗
+              </button>
+              {project.links?.repo && (
+                <a
+                  className="inline-block border-b border-border py-2 text-[13px] text-accent"
+                  href={project.links.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub ↗
+                </a>
+              )}
+              {project.links?.live && (
+                <a
+                  className="inline-block border-b border-border py-2 text-[13px] text-accent"
+                  href={project.links.live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Live demo ↗
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </Reveal>

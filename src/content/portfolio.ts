@@ -66,6 +66,15 @@ export const chapters = [
   },
 ];
 
+/** Repo links must live under the owner's GitHub account, enforced at compile time. */
+export type RepoUrl = `https://github.com/alina-khan123/${string}`;
+
+export type ProjectLinks = {
+  repo?: RepoUrl;
+  /** Public demo, only add if it is actually deployed. */
+  live?: `https://${string}`;
+};
+
 export type Project = {
   title: string;
   kicker: string;
@@ -77,6 +86,8 @@ export type Project = {
   metrics: [string, string][];
   caption: string;
   detail: string;
+  /** Optional. Add a repo/live URL here and Work.tsx renders the link; no component edits needed. */
+  links?: ProjectLinks;
 };
 
 export const projects: Project[] = [
