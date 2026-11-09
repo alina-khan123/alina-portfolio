@@ -1,20 +1,7 @@
-import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { profile } from "@/content/portfolio";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 export function Hero() {
-  const reduced = useReducedMotion();
-  const [roleIndex, setRoleIndex] = useState(0);
-
-  useEffect(() => {
-    if (reduced) return;
-    const id = window.setInterval(() => {
-      setRoleIndex((index) => (index + 1) % profile.roles.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, [reduced]);
-
   return (
     <section
       id="top"
@@ -28,26 +15,30 @@ export function Hero() {
         </Reveal>
         <Reveal>
           <h1 className="max-w-[1210px] text-[13vw] leading-[0.98] font-bold tracking-[-0.055em] md:text-[6.4vw] md:tracking-[-0.065em]">
-            <span className="block">Building AI that works.</span>
-            <span className="block">And software that matters.</span>
+            <span className="block">I build AI systems</span>
+            <span className="block">people can rely on.</span>
           </h1>
         </Reveal>
-        <div className="mt-8 h-12 overflow-hidden font-serif text-[27px] text-accent italic md:mt-9 md:text-[32px]">
-          <span className="block transition-all duration-300">
-            {profile.roles[roleIndex]}
-          </span>
-        </div>
+        <p className="mt-8 text-lg text-accent md:mt-9 md:text-xl">
+          AI &amp; Automation Engineer · Big Data &amp; AI student
+        </p>
       </div>
-      <Reveal className="mt-24 flex items-end justify-between gap-6 text-[11px] text-muted md:items-center md:text-[13px]">
+      <Reveal className="mt-16 flex flex-wrap items-end justify-between gap-6 text-[11px] text-muted md:mt-20 md:items-center md:text-[13px]">
         <p className="max-w-[180px] md:max-w-none">
           {profile.location}
           <br />
           {profile.study}
         </p>
-        <a className="flex items-center gap-3" href="#about">
-          Scroll to learn more <span className="text-2xl">↓</span>
-        </a>
+        <div className="flex items-center gap-5">
+          <a className="rounded-full bg-accent px-5 py-3 text-sm text-white transition-transform hover:-translate-y-0.5" href="#work">
+            View selected work <span aria-hidden="true">↗</span>
+          </a>
+          <a className="flex items-center gap-2 underline decoration-border underline-offset-4" href="#about">
+            About <span aria-hidden="true">↓</span>
+          </a>
+        </div>
       </Reveal>
     </section>
   );
 }
+
