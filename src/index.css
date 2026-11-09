@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Geist", Arial, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --paper: #f7f4ee;
+  --ink: #1b1b1b;
+  --background: transparent;
+  --foreground: #1b1b1b;
+  --card: #eeebe4;
+  --muted: #66635e;
+  --accent: #c36d50;
+  --border: color-mix(in srgb, #1b1b1b 13%, transparent);
+  --ring: #c36d50;
+}
+
+.dark {
+  --paper: #171715;
+  --ink: #f0ede5;
+  --background: transparent;
+  --foreground: #f0ede5;
+  --card: #22221f;
+  --muted: #aaa59b;
+  --accent: #c36d50;
+  --border: color-mix(in srgb, #ffffff 15%, transparent);
+  --ring: #c36d50;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+  }
+
+  body {
+    margin: 0;
+    background: transparent;
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    background: none;
+    border: 0;
+  }
+
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 5px;
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scaleY(0.1);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
