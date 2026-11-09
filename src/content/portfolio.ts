@@ -93,6 +93,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: "Aurum AI",
+    links: { repo: "https://github.com/alina-khan123/Aurum_AI" },
     kicker: "A council, not a single opinion.",
     role: "Multi-agent systems · Full-stack development",
     status: "Hackathon · 1st place",
@@ -111,6 +112,7 @@ export const projects: Project[] = [
   },
   {
     title: "Arabic Sentiment",
+    links: { repo: "https://github.com/alina-khan123/Arabic_Sentiment_Analysis" },
     kicker: "Language, with its local context.",
     role: "LLM fine-tuning · Applied research",
     status: "Academic project · 2026",
@@ -146,6 +148,7 @@ export const projects: Project[] = [
   },
   {
     title: "Innovation Platform",
+    links: { repo: "https://github.com/alina-khan123/ZU-Innovation-TeamForge" },
     kicker: "Connecting ideas to opportunity.",
     role: "Semantic search · Full-stack development",
     status: "Zayed University Hackathon · 2025",
@@ -170,6 +173,7 @@ export const projects: Project[] = [
   },
   {
     title: "Robot Navigation",
+    links: { repo: "https://github.com/alina-khan123/CSCI218_Project" },
     kicker: "Learning how to find a way.",
     role: "Reinforcement learning · Simulation",
     status: "Personal project",
