@@ -68,6 +68,7 @@ export const chapters = [
 
 export type Project = {
   title: string;
+  repoUrl: string;
   kicker: string;
   role: string;
   status: string;
@@ -82,6 +83,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: "Aurum AI",
+    repoUrl: "https://github.com/alina-khan123/Aurum_AI",
     kicker: "A council, not a single opinion.",
     role: "Multi-agent systems · Full-stack development",
     status: "Hackathon · 1st place",
@@ -100,6 +102,7 @@ export const projects: Project[] = [
   },
   {
     title: "Arabic Sentiment",
+    repoUrl: "https://github.com/alina-khan123/Arabic_Sentiment_Analysis",
     kicker: "Language, with its local context.",
     role: "LLM fine-tuning · Applied research",
     status: "Academic project · 2026",
@@ -118,6 +121,7 @@ export const projects: Project[] = [
   },
   {
     title: "NYC Taxi Pipeline",
+    repoUrl: "https://github.com/alina-khan123/NYC_Taxi_Project",
     kicker: "Millions of trips. One clear pipeline.",
     role: "Distributed machine learning · Data engineering",
     status: "Academic project · 2026",
@@ -135,6 +139,7 @@ export const projects: Project[] = [
   },
   {
     title: "Innovation Platform",
+    repoUrl: "https://github.com/alina-khan123/ZU-Innovation-TeamForge",
     kicker: "Connecting ideas to opportunity.",
     role: "Semantic search · Full-stack development",
     status: "Zayed University Hackathon · 2025",
@@ -159,6 +164,7 @@ export const projects: Project[] = [
   },
   {
     title: "Robot Navigation",
+    repoUrl: "https://github.com/alina-khan123/CSCI218_Project",
     kicker: "Learning how to find a way.",
     role: "Reinforcement learning · Simulation",
     status: "Personal project",
@@ -249,3 +255,4 @@ export const processSteps: [string, string][] = [
 export const chartHeights = [
   26, 39, 32, 49, 45, 66, 58, 75, 63, 87, 73, 95, 82, 92, 100,
 ];
+
