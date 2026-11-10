@@ -44,7 +44,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 90px;
+    scroll-padding-top: 96px;
   }
 
   body {
@@ -190,6 +190,12 @@
   .orbit-item { width: 38px; }
 }
 
+@media (min-width: 1024px) {
+  html {
+    scroll-padding-top: 136px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .orbit-logo { transition: none; }
 }
@@ -206,3 +212,4 @@
     transition: none !important;
   }
 }
+

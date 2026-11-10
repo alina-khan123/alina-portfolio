@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,30 @@ interface NavBarProps {
 export function NavBar({ items, className }: NavBarProps) {
   const [activeTab, setActiveTab] = useState(items[0]?.name ?? "");
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [focusedTab, setFocusedTab] = useState<string | null>(null);
+  const hoverNavigationTimer = useRef<number | null>(null);
+
+  const cancelHoverNavigation = () => {
+    if (hoverNavigationTimer.current !== null) {
+      window.clearTimeout(hoverNavigationTimer.current);
+      hoverNavigationTimer.current = null;
+    }
+  };
+
+  const handleHover = (item: NavItem) => {
+    cancelHoverNavigation();
+    setHoveredTab(item.name);
+    hoverNavigationTimer.current = window.setTimeout(() => {
+      const section = item.url.startsWith("#")
+        ? document.getElementById(item.url.slice(1))
+        : null;
+      if (section) {
+        setActiveTab(item.name);
+        section.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+      hoverNavigationTimer.current = null;
+    }, 550);
+  };
 
   useEffect(() => {
     const sections = items
@@ -69,6 +93,7 @@ export function NavBar({ items, className }: NavBarProps) {
     window.addEventListener("resize", scheduleUpdate);
     window.addEventListener("hashchange", updateFromHash);
     return () => {
+      cancelHoverNavigation();
       window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
@@ -85,22 +110,29 @@ export function NavBar({ items, className }: NavBarProps) {
     >
       <nav
         aria-label="Section navigation"
-        className="flex items-center gap-0 rounded-full border border-border bg-paper/85 px-1 py-1 shadow-lg backdrop-blur-xl sm:gap-1 xl:gap-2"
+        className="flex items-center gap-0 rounded-full border border-border bg-paper px-1 py-1 shadow-lg sm:gap-1 xl:gap-2"
       >
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.name;
-          const isHighlighted = (hoveredTab ?? activeTab) === item.name;
+          const isHighlighted =
+            (hoveredTab ?? focusedTab ?? activeTab) === item.name;
 
           return (
             <a
               key={item.name}
               href={item.url}
-              onClick={() => setActiveTab(item.name)}
-              onMouseEnter={() => setHoveredTab(item.name)}
-              onMouseLeave={() => setHoveredTab(null)}
-              onFocus={() => setHoveredTab(item.name)}
-              onBlur={() => setHoveredTab(null)}
+              onClick={() => {
+                cancelHoverNavigation();
+                setActiveTab(item.name);
+              }}
+              onMouseEnter={() => handleHover(item)}
+              onMouseLeave={() => {
+                cancelHoverNavigation();
+                setHoveredTab(null);
+              }}
+              onFocus={() => setFocusedTab(item.name)}
+              onBlur={() => setFocusedTab(null)}
               aria-current={isActive ? "location" : undefined}
               aria-label={item.name}
               className={cn(
@@ -120,10 +152,7 @@ export function NavBar({ items, className }: NavBarProps) {
                   initial={false}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
-                  <span className="absolute -top-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-t-full bg-accent xl:-top-2 xl:h-1 xl:w-8">
-                    <span className="absolute -top-1 -left-1 h-4 w-8 rounded-full bg-accent/20 blur-md xl:-top-2 xl:-left-2 xl:h-6 xl:w-12" />
-                    <span className="absolute -top-1 left-0 h-4 w-6 rounded-full bg-accent/20 blur-md xl:-top-1 xl:h-6 xl:w-8" />
-                  </span>
+                  <span className="absolute -top-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-t-full bg-accent xl:-top-2 xl:h-1 xl:w-8" />
                 </motion.span>
               )}
             </a>
