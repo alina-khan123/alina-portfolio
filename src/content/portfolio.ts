@@ -13,15 +13,6 @@ export const profile = {
   ],
 };
 
-export const nav = [
-  { href: "#about", label: "ABOUT" },
-  { href: "#experience", label: "EXPERIENCE" },
-  { href: "#work", label: "WORK" },
-  { href: "#skills", label: "SKILLS" },
-  { href: "#process", label: "PROCESS" },
-  { href: "#contact", label: "CONTACT" },
-];
-
 export const aboutTags = [
   "Python",
   "ReAct & MCP",
