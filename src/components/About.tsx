@@ -1,18 +1,20 @@
 import { Reveal } from "@/components/Reveal";
+import { OrbitingTools } from "@/components/ui/OrbitingTools";
 import { aboutTags } from "@/content/portfolio";
 
 export function About() {
   return (
     <section
       id="about"
-      className="grid grid-cols-1 gap-8 border-b border-border px-6 py-16 md:grid-cols-[4fr_7fr] md:gap-[8%] md:px-12 md:py-[90px]"
+      className="about-layout border-b border-border px-6 py-16 md:px-12 md:py-[90px]"
     >
-      <Reveal>
+      <Reveal className="about-label">
         <p className="text-[13px] tracking-[0.16em] text-muted uppercase">
           About
         </p>
       </Reveal>
-      <div>
+      <div className="about-visual"><OrbitingTools /></div>
+      <div className="about-copy">
         <Reveal>
           <p className="mb-7 text-[27px] leading-[1.4] tracking-[-0.025em] md:text-[clamp(24px,2.8vw,38px)]">
             I’m interested in the moment an intelligent system becomes genuinely
@@ -30,9 +32,9 @@ export function About() {
           <p className="mb-4 max-w-[760px] text-base text-muted md:text-lg">
             I’m a Computer Science undergraduate specialising in Big Data and AI
             at the University of Wollongong in Dubai. My work spans multi-agent
-            systems, fine-tuning, distributed machine learning, and full-stack
-            applications — with attention to validation, evaluation, and the
-            person using the result.
+            systems, model fine-tuning, machine learning, and workflow
+            automation, with a focus on validation, evaluation, integration,
+            and optimization.
           </p>
         </Reveal>
         <Reveal>

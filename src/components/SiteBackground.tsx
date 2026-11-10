@@ -48,3 +48,4 @@ export function SiteBackground({ theme }: { theme: "dark" | "light" }) {
     </div>
   );
 }
+

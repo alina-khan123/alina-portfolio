@@ -1,6 +1,6 @@
-# Alina Khan — portfolio
+# Alina Khan — Portfolio
 
-Personal site for Alina Khan, built with Vite, React, TypeScript, Tailwind CSS, and shadcn-style `src/components/ui`.
+Recruiter-facing portfolio for Alina Khan, focused on applied AI, automation, and software engineering. Built with Vite, React, TypeScript, and Tailwind CSS.
 
 ## Run locally
 
@@ -9,8 +9,11 @@ npm install
 npm run dev
 ```
 
+Create a production build with `npm run build`, then preview it with `npm run preview`.
+
 ## Edit content
 
-Project copy, experience, skills, and links live in `src/content/portfolio.ts`. Put the resume PDF in `public/Alina-Khan-Resume.pdf`.
+Project copy, experience, skills, and project repository links live in `src/content/portfolio.ts`. Put the resume PDF in `public/Alina-Khan-Resume.pdf`.
 
-The topographic WebGL background is `src/components/ui/topo-field.tsx`.
+The portfolio uses a restrained color system, responsive project list, light/dark themes, reduced-motion support, and a custom SVG favicon.
+
