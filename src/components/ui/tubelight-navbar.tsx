@@ -110,7 +110,7 @@ export function NavBar({ items, className }: NavBarProps) {
     >
       <nav
         aria-label="Section navigation"
-        className="flex items-center gap-0 rounded-full border border-border bg-paper px-1 py-1 shadow-lg sm:gap-1 xl:gap-2"
+        className="flex items-center gap-0 px-1 py-1 sm:gap-1 xl:gap-2"
       >
         {items.map((item) => {
           const Icon = item.icon;
@@ -136,7 +136,7 @@ export function NavBar({ items, className }: NavBarProps) {
               aria-current={isActive ? "location" : undefined}
               aria-label={item.name}
               className={cn(
-                "relative isolate flex min-h-11 min-w-10 items-center justify-center rounded-full px-2 text-sm font-semibold transition-colors sm:px-3 xl:px-5",
+                "relative isolate flex min-h-11 min-w-10 items-center justify-center rounded-full px-2 text-sm font-semibold transition-colors duration-500 sm:px-3 xl:px-5",
                 "text-foreground/80",
                 isHighlighted && "bg-card text-accent",
               )}
@@ -145,16 +145,15 @@ export function NavBar({ items, className }: NavBarProps) {
               <span className="relative z-10 xl:hidden" aria-hidden="true">
                 <Icon size={18} strokeWidth={2.25} />
               </span>
-              {isHighlighted && (
-                <motion.span
-                  layoutId="tubelight-active-indicator"
-                  className="pointer-events-none absolute inset-0 z-0 rounded-full bg-accent/5"
-                  initial={false}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                >
-                  <span className="absolute -top-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-t-full bg-accent xl:-top-2 xl:h-1 xl:w-8" />
-                </motion.span>
-              )}
+              <motion.span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-0 rounded-full bg-accent/5"
+                initial={false}
+                animate={{ opacity: isHighlighted ? 1 : 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <span className="absolute -top-1 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-t-full bg-accent xl:-top-2 xl:h-1 xl:w-8" />
+              </motion.span>
             </a>
           );
         })}

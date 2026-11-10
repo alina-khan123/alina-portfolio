@@ -34,8 +34,6 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-20 flex items-center justify-between gap-5 px-6 py-5 transition-colors md:px-12",
-          scrolled &&
-            "border-b border-border bg-paper",
         )}
       >
         <a
