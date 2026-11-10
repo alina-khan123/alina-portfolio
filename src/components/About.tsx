@@ -30,9 +30,9 @@ export function About() {
           <p className="mb-4 max-w-[760px] text-base text-muted md:text-lg">
             I’m a Computer Science undergraduate specialising in Big Data and AI
             at the University of Wollongong in Dubai. My work spans multi-agent
-            systems, fine-tuning, distributed machine learning, and full-stack
-            applications — with attention to validation, evaluation, and the
-            person using the result.
+            systems, model fine-tuning, machine learning, and workflow
+            automation, with a focus on validation, evaluation, and
+            optimization.
           </p>
         </Reveal>
         <Reveal>
@@ -61,3 +61,4 @@ export function About() {
     </section>
   );
 }
+
