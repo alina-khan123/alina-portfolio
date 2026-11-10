@@ -31,8 +31,8 @@ export function About() {
             I’m a Computer Science undergraduate specialising in Big Data and AI
             at the University of Wollongong in Dubai. My work spans multi-agent
             systems, model fine-tuning, machine learning, and workflow
-            automation, with a focus on validation, evaluation, and
-            optimization.
+            automation, with a focus on validation, evaluation, integration,
+            and optimization.
           </p>
         </Reveal>
         <Reveal>
