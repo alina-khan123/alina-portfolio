@@ -1,7 +1,7 @@
 export const profile = {
   name: "Alina Khan",
   email: "alinasohailkhan2004@gmail.com",
-  resume: "/Alina-Khan-Resume.pdf",
+  resume: "https://drive.google.com/file/d/1QtOkzwJ2Jlhr9lvRyFoivHuYGtQ99g3r/view?usp=sharing",
   location: "Currently learning & building in Dubai.",
   study: "Big Data & AI · University of Wollongong",
   github: "https://github.com/alina-khan123",

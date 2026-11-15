@@ -10,17 +10,11 @@ type HeaderProps = {
 export function Header({ theme, onToggleTheme }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [active, setActive] = useState("#top");
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 70);
-      const max = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
-      setProgress((window.scrollY / max) * 100);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -47,15 +41,9 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
 
   return (
     <>
-      <div
-        className="fixed top-0 left-0 z-30 h-0.5 bg-accent"
-        style={{ width: `${progress}%` }}
-      />
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-20 grid grid-cols-[1fr_auto] items-center gap-5 px-6 py-5 transition-colors md:grid-cols-[1fr_auto_1fr] md:px-12",
-          scrolled &&
-            "border-b border-border bg-[color-mix(in_srgb,var(--paper)_82%,transparent)] backdrop-blur-2xl",
           open && "bg-paper",
         )}
       >
