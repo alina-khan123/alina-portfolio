@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { profile } from "@/content/portfolio";
 import type { Theme } from "@/hooks/useTheme";
-import { cn } from "@/lib/utils";
+
+// "Alina Khan" -> [["A", "lina "], ["K", "han"]]: each word's initial stays
+// visible and the rest folds away, leaving the monogram "AK".
+const nameParts = profile.name
+  .split(" ")
+  .map((word, index, words) => [
+    word[0],
+    word.slice(1) + (index < words.length - 1 ? " " : ""),
+  ]);
 
 type HeaderProps = {
   theme: Theme;
@@ -37,12 +45,18 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
       >
         <a
           href="#top"
-          className={cn(
-            "text-sm font-semibold transition-opacity",
-            scrolled ? "opacity-100" : "opacity-0",
-          )}
+          className="name-logo text-sm font-semibold"
+          data-collapsed={scrolled}
+          aria-label={profile.name}
         >
-          {profile.name}
+          {nameParts.map(([initial, rest]) => (
+            <Fragment key={initial + rest}>
+              <span>{initial}</span>
+              <span className="name-logo-fold" aria-hidden="true">
+                <span>{rest}</span>
+              </span>
+            </Fragment>
+          ))}
         </a>
         <div className="flex items-center justify-end gap-3">
           <a
