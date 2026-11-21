@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { profile } from "@/content/portfolio";
+import type { Theme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 type HeaderProps = {
-  theme: "dark" | "light";
+  theme: Theme;
   onToggleTheme: () => void;
 };
 
@@ -32,16 +33,13 @@ export function Header({ theme, onToggleTheme }: HeaderProps) {
         style={{ width: `${progress}%` }}
       />
       <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-20 flex items-center justify-between gap-5 px-6 py-5 transition-colors md:px-12",
-        )}
+        className="fixed inset-x-0 top-0 z-20 flex items-center justify-between gap-5 px-6 py-5 transition-colors md:px-12"
       >
         <a
           href="#top"
           className={cn(
             "text-sm font-semibold transition-opacity",
-            scrolled ? "opacity-100" : "opacity-0 md:opacity-0",
-            scrolled && "md:opacity-100",
+            scrolled ? "opacity-100" : "opacity-0",
           )}
         >
           {profile.name}
