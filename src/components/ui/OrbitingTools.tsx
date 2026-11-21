@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 type Orbit = "inner" | "outer";
 
@@ -27,6 +28,7 @@ export function OrbitingTools() {
   const [time, setTime] = useState(0);
   const [stageSize, setStageSize] = useState(0);
   const [paused, setPaused] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -40,7 +42,7 @@ export function OrbitingTools() {
   }, []);
 
   useEffect(() => {
-    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (paused || reduced) return;
 
     let frame = 0;
     let previous = performance.now();
@@ -53,7 +55,7 @@ export function OrbitingTools() {
 
     frame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frame);
-  }, [paused]);
+  }, [paused, reduced]);
 
   return (
     <div

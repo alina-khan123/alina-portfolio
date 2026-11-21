@@ -1,17 +1,10 @@
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
+import { useEffect, useMemo, useRef } from "react";
 import topoFieldSource from "./topo-field-source.html?raw";
 
 type TopoFieldMode = "dark" | "light";
 
-export type TopoFieldProps = {
-  /** "auto" follows the page's light/dark scheme via prefers-color-scheme. */
-  mode?: TopoFieldMode | "auto";
+type TopoFieldProps = {
+  mode?: TopoFieldMode;
   /** Animation speed multiplier. */
   speed?: number;
   /** Stretches/compresses the noise field driving the contour bands. */
@@ -23,7 +16,6 @@ export type TopoFieldProps = {
   saturation?: number;
   brightness?: number;
   className?: string;
-  style?: CSSProperties;
 };
 
 const LIGHT_PAPER = "#eef1f6";
@@ -36,46 +28,6 @@ function clamp(value: number, minimum: number, maximum: number) {
 function glslFloat(value: number, digits = 3) {
   const fixed = Number(value).toFixed(digits);
   return fixed.includes(".") ? fixed : `${fixed}.0`;
-}
-
-function readAutomaticMode(): TopoFieldMode {
-  if (typeof document === "undefined" || typeof window === "undefined")
-    return "dark";
-  const root = document.documentElement;
-  const declared = root.dataset.scheme ?? root.dataset.theme;
-  if (declared === "light" || declared === "dark") return declared;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
-function useAutomaticMode(enabled: boolean) {
-  const [autoMode, setAutoMode] = useState<TopoFieldMode>(readAutomaticMode);
-
-  useEffect(() => {
-    if (
-      !enabled ||
-      typeof document === "undefined" ||
-      typeof window === "undefined"
-    )
-      return undefined;
-    const root = document.documentElement;
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const update = () => setAutoMode(readAutomaticMode());
-    const observer = new MutationObserver(update);
-    observer.observe(root, {
-      attributes: true,
-      attributeFilter: ["data-scheme", "data-theme", "class"],
-    });
-    media.addEventListener("change", update);
-    update();
-    return () => {
-      observer.disconnect();
-      media.removeEventListener("change", update);
-    };
-  }, [enabled]);
-
-  return autoMode;
 }
 
 function patchTopoField(
@@ -116,30 +68,21 @@ function patchTopoField(
   return next;
 }
 
-function buildFocusedDocument(knobs: {
+function buildDocument(knobs: {
   mode: TopoFieldMode;
   length: number;
   density: number;
 }) {
   const background = knobs.mode === "light" ? LIGHT_PAPER : "#000000";
   const patched = patchTopoField(topoFieldSource, knobs);
-  const targetJson = JSON.stringify([
-    { selector: "#topo-canvas", role: "background" },
-  ]).replace(/</g, "\\u003c");
 
-  const focusStyle = `<style data-threeui-focus>
-html, body { width: 100% !important; height: 100% !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; background: ${background} !important; }
-body { position: relative !important; }
-body > * { visibility: hidden !important; }
-body[data-threeui-ready] > [data-threeui-role] { visibility: visible !important; }
-[data-threeui-residual] { display: none !important; }
-[data-threeui-role="background"] { position: fixed !important; inset: 0 !important; width: 100% !important; height: 100% !important; z-index: 0 !important; opacity: 1 !important; pointer-events: none !important; }
-</style>`;
+  const backgroundStyle = `<style>html, body { background: ${background}; }</style>`;
 
-  const controlScript = `<script data-threeui-controls>
+  // Receives speed/opacity from the parent. Speed works by scaling the
+  // clock the shader's render loop reads from performance.now().
+  const controlScript = `<script>
 (function () {
   var controls = { speed: 1, opacity: 1 };
-  window.__SF_CONTROLS = controls;
   var origin = performance.now();
   var virtual = 0;
   var last = origin;
@@ -151,10 +94,8 @@ body[data-threeui-ready] > [data-threeui-role] { visibility: visible !important;
     return origin + virtual;
   };
   function applyVisual() {
-    var opacity = controls.opacity == null ? 1 : controls.opacity;
-    Array.prototype.forEach.call(document.querySelectorAll('[data-threeui-role]'), function (element) {
-      element.style.opacity = String(opacity);
-    });
+    var canvas = document.getElementById('topo-canvas');
+    if (canvas) canvas.style.opacity = String(controls.opacity == null ? 1 : controls.opacity);
   }
   window.addEventListener('message', function (event) {
     if (!event.data || event.data.type !== 'threeui-controls') return;
@@ -162,48 +103,13 @@ body[data-threeui-ready] > [data-threeui-role] { visibility: visible !important;
     Object.keys(next).forEach(function (key) { controls[key] = next[key]; });
     applyVisual();
   });
-  window.__SF_APPLY_CONTROLS = applyVisual;
 })();
 </script>`;
 
-  const focusScript = `<script data-threeui-focus>
-(function () {
-  var isolated = false;
-  function isolate() {
-    if (isolated) return;
-    var specs = ${targetJson};
-    var roots = [];
-    specs.forEach(function (spec) {
-      var element = document.querySelector(spec.selector);
-      if (!element) return;
-      element.setAttribute('data-threeui-role', spec.role);
-      if (!roots.some(function (root) { return root.contains(element); })) roots.push(element);
-    });
-    if (!roots.length) return;
-    isolated = true;
-    roots.forEach(function (root) {
-      if (root.parentElement !== document.body) document.body.appendChild(root);
-    });
-    Array.from(document.body.children).forEach(function (element) {
-      if (roots.indexOf(element) !== -1) return;
-      element.setAttribute('data-threeui-residual', '');
-      element.setAttribute('aria-hidden', 'true');
-      if ('inert' in element) element.inert = true;
-    });
-    document.body.setAttribute('data-threeui-ready', '');
-    if (window.__SF_APPLY_CONTROLS) window.__SF_APPLY_CONTROLS();
-    requestAnimationFrame(function () { window.dispatchEvent(new Event('resize')); });
-  }
-  function scheduleIsolation() { setTimeout(isolate, 100); }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scheduleIsolation, { once: true });
-  else scheduleIsolation();
-  window.addEventListener('load', isolate, { once: true });
-})();
-</script>`;
-
-  return patched
-    .replace(/<head([^>]*)>/i, `<head$1>${controlScript}${focusStyle}`)
-    .replace(/<\/body>/i, `${focusScript}</body>`);
+  return patched.replace(
+    /<head([^>]*)>/i,
+    `<head$1>${controlScript}${backgroundStyle}`,
+  );
 }
 
 /**
@@ -221,13 +127,9 @@ export default function TopoField({
   saturation = 1,
   brightness = 1,
   className,
-  style,
 }: TopoFieldProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const automaticMode = useAutomaticMode(mode === "auto");
-  const resolvedMode: TopoFieldMode =
-    mode === "auto" ? automaticMode : mode === "light" ? "light" : "dark";
-  const background = resolvedMode === "light" ? LIGHT_PAPER : "#000000";
+  const background = mode === "light" ? LIGHT_PAPER : "#000000";
 
   const safeSpeed = clamp(speed, 0, 3);
   const safeLength = clamp(length, 0.35, 2.5);
@@ -239,12 +141,12 @@ export default function TopoField({
 
   const source = useMemo(
     () =>
-      buildFocusedDocument({
-        mode: resolvedMode,
+      buildDocument({
+        mode,
         length: safeLength,
         density: safeDensity,
       }),
-    [resolvedMode, safeLength, safeDensity],
+    [mode, safeLength, safeDensity],
   );
 
   useEffect(() => {
@@ -279,7 +181,6 @@ export default function TopoField({
         border: 0,
         background,
         filter,
-        ...style,
       }}
     />
   );

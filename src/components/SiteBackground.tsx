@@ -1,8 +1,9 @@
 import TopoField from "@/components/ui/topo-field";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import type { Theme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-export function SiteBackground({ theme }: { theme: "dark" | "light" }) {
+export function SiteBackground({ theme }: { theme: Theme }) {
   const reduced = useReducedMotion();
 
   return (

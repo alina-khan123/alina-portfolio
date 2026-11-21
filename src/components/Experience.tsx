@@ -24,7 +24,7 @@ export function Experience() {
               <small className="mt-2 block">{chapter.dates}</small>
             </div>
             <Reveal>
-              <h3 className="mb-3.5 text-[28px] leading-[1.2] tracking-[-0.035em] transition-transform duration-500 md:text-[32px] md:group-hover:translate-x-2">
+              <h3 className="mb-3.5 text-[28px] leading-[1.2] tracking-[-0.035em] md:text-[32px]">
                 {chapter.title}
               </h3>
               <p className="m-0 text-muted">{chapter.body}</p>

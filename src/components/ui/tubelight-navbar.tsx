@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface NavItem {
+interface NavItem {
   name: string;
   url: string;
   icon: LucideIcon;
@@ -11,10 +11,9 @@ export interface NavItem {
 
 interface NavBarProps {
   items: NavItem[];
-  className?: string;
 }
 
-export function NavBar({ items, className }: NavBarProps) {
+export function NavBar({ items }: NavBarProps) {
   const [activeTab, setActiveTab] = useState(items[0]?.name ?? "");
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const [focusedTab, setFocusedTab] = useState<string | null>(null);
@@ -102,12 +101,7 @@ export function NavBar({ items, className }: NavBarProps) {
   }, [items]);
 
   return (
-    <div
-      className={cn(
-        "fixed bottom-0 left-1/2 z-50 mb-6 -translate-x-1/2 px-2 lg:top-0 lg:mb-0 lg:pt-6",
-        className,
-      )}
-    >
+    <div className="fixed bottom-0 left-1/2 z-50 mb-6 -translate-x-1/2 px-2 lg:top-0 lg:mb-0 lg:pt-6">
       <nav
         aria-label="Section navigation"
         className="flex items-center gap-0 px-1 py-1 sm:gap-1 xl:gap-2"

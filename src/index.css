@@ -1,44 +1,33 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-sans: "Geist", Arial, sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
-  --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-border: var(--border);
-  --color-paper: var(--paper);
-  --color-ink: var(--ink);
-  --color-ring: var(--ring);
 }
 
 :root {
   --paper: #f7f4ee;
-  --ink: #1b1b1b;
-  --background: transparent;
   --foreground: #1b1b1b;
   --card: #eeebe4;
   --muted: #66635e;
   --accent: #c36d50;
   --border: color-mix(in srgb, #1b1b1b 13%, transparent);
-  --ring: #c36d50;
 }
 
 .dark {
   --paper: #171715;
-  --ink: #f0ede5;
-  --background: transparent;
   --foreground: #f0ede5;
   --card: #22221f;
   --muted: #aaa59b;
   --accent: #c36d50;
   --border: color-mix(in srgb, #ffffff 15%, transparent);
-  --ring: #c36d50;
 }
 
 @layer base {
@@ -74,15 +63,6 @@
   a:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 5px;
-  }
-}
-
-@keyframes grow {
-  from {
-    transform: scaleY(0.1);
-  }
-  to {
-    transform: scaleY(1);
   }
 }
 
@@ -153,8 +133,8 @@
 
 .orbit-logo { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 14px rgb(0 0 0 / 28%)); transition: filter 180ms ease, scale 180ms ease; }
 .orbit-item:hover .orbit-logo { scale: 1.12; filter: drop-shadow(0 8px 20px color-mix(in srgb, var(--accent) 55%, transparent)); }
-.dark .orbit-logo-cursor, .dark .orbit-logo-github, .dark .orbit-logo-hermesagent { filter: invert(1) drop-shadow(0 6px 14px rgb(0 0 0 / 28%)); }
-.dark .orbit-item:hover .orbit-logo-cursor, .dark .orbit-item:hover .orbit-logo-github, .dark .orbit-item:hover .orbit-logo-hermesagent { filter: invert(1) drop-shadow(0 8px 20px color-mix(in srgb, var(--accent) 55%, transparent)); }
+.dark .orbit-logo-cursor, .dark .orbit-logo-github, .dark .orbit-logo-hermes { filter: invert(1) drop-shadow(0 6px 14px rgb(0 0 0 / 28%)); }
+.dark .orbit-item:hover .orbit-logo-cursor, .dark .orbit-item:hover .orbit-logo-github, .dark .orbit-item:hover .orbit-logo-hermes { filter: invert(1) drop-shadow(0 8px 20px color-mix(in srgb, var(--accent) 55%, transparent)); }
 
 .orbit-core {
   position: absolute;
@@ -194,10 +174,6 @@
   html {
     scroll-padding-top: 136px;
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orbit-logo { transition: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

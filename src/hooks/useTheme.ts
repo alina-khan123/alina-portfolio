@@ -9,18 +9,11 @@ function readTheme(): Theme {
   return "dark";
 }
 
-function applyTheme(theme: Theme) {
-  const root = document.documentElement;
-  root.dataset.theme = theme;
-  root.classList.toggle("dark", theme === "dark");
-  root.classList.toggle("light", theme === "light");
-}
-
 export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(readTheme);
 
   useEffect(() => {
-    applyTheme(theme);
+    document.documentElement.classList.toggle("dark", theme === "dark");
     window.localStorage.setItem("theme", theme);
   }, [theme]);
 
