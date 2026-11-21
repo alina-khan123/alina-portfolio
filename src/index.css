@@ -66,6 +66,37 @@
   }
 }
 
+/* Header name: full at the top of the page, folds to its initials on scroll.
+   Collapsing fades the letters first, then closes the gap; expanding opens
+   the gap first, then fades the letters back in. */
+.name-logo {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: pre;
+}
+
+.name-logo-fold {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-columns 450ms cubic-bezier(.22, 1, .36, 1),
+    opacity 250ms ease 220ms;
+}
+
+.name-logo-fold > span {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.name-logo[data-collapsed="true"] .name-logo-fold {
+  grid-template-columns: 0fr;
+  opacity: 0;
+  transition:
+    opacity 200ms ease,
+    grid-template-columns 450ms cubic-bezier(.22, 1, .36, 1) 120ms;
+}
+
 .about-layout {
   display: grid;
   grid-template-columns: minmax(250px, 4fr) minmax(0, 7fr);
